@@ -1,3 +1,5 @@
+const { strikethrough } = require("colors");
+
 const MORSE_TABLE = {
     '.-':     'a',
     '-...':   'b',
@@ -38,7 +40,37 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let subArr = [];
+    let startSlicing = 0;
+    for (let i = 0; i < expr.length / 10; i++) {
+        subArr.push(expr.slice(startSlicing, startSlicing + 10));
+        startSlicing += 10;
+    };
+  
+    subArr = subArr.map((value) => {
+      if (isNaN(parseInt(value))) {
+        return value;
+      }
+      return parseInt(value) + '';
+    });
+  
+    subArr = subArr.map((value) => {
+      let RegExp = /(10)/g;
+      value = value.replace(RegExp, '.');
+      RegExp = /(11)/g;
+      value = value.replace(RegExp, '-');
+      return value;
+    });
+  subArr = subArr.map((value) => {
+    if (value === '**********') {
+      return ' ';
+    }
+    for (let key in MORSE_TABLE) {
+      return MORSE_TABLE[value];
+    }
+    
+  })
+    return subArr.join('');
 }
 
 module.exports = {
